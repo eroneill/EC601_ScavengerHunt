@@ -16,3 +16,5 @@ class ClueAnswer(models.Model):
     votes = models.IntegerField(default=0)
     def __str__(self):
        return self.answer_text
+	   
+	# THIS IS BY PAT
