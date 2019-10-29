@@ -14,4 +14,6 @@ Sprint 1 Results: https://docs.google.com/presentation/d/1YLyPTfhMV-XVshHib3EzPY
 
 Software Requirements: Python 3.0+, Django 2.2.x
 
-
+Django Package required to install:
+    Nested-admin:
+        ***pip install django-nested-admin***
