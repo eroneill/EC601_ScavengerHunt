@@ -2,24 +2,24 @@ from django.contrib import admin
 
 # Register your models here.
 import nested_admin
-from .models import Quiz, Question, Answer, Response, QuizTakers
+from .models import Hunt, Stop, Answer, Response, Usrs
 class AnswerInline(nested_admin.NestedTabularInline):
 	model = Answer
-	extra = 4
+	extra = 2
 	max_num = 4
 
-class QuestionInline(nested_admin.NestedTabularInline):
-	model = Question
+class StopInline(nested_admin.NestedTabularInline):
+	model = Stop
 	inlines = [AnswerInline,]
-	extra = 19
-class QuizAdmin(nested_admin.NestedModelAdmin):
-	inlines = [QuestionInline,]
+	extra = 3
+class HuntAdmin(nested_admin.NestedModelAdmin):
+	inlines = [StopInline,]
 
 class ResponseInline(admin.TabularInline):
 	model = Response
-class QuizTakersAdmin(admin.ModelAdmin):
+class UsrsAdmin(admin.ModelAdmin):
 	inlines = [ResponseInline,]
 	
-admin.site.register(Quiz, QuizAdmin)
-admin.site.register(QuizTakers, QuizTakersAdmin)
+admin.site.register(Hunt, HuntAdmin)
+admin.site.register(Usrs, UsrsAdmin)
 admin.site.register(Response)

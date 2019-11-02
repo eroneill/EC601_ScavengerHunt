@@ -14,7 +14,7 @@ class HuntClue(models.Model):
     def __str__(self):
         return self.clue_text
 
-
+ 
 class ClueAnswer(models.Model):
     clue = models.ForeignKey(HuntClue, on_delete=models.CASCADE)
     answer_text = models.CharField(max_length=200)
@@ -22,38 +22,40 @@ class ClueAnswer(models.Model):
     def __str__(self):
        return self.answer_text
 
-class Quiz(models.Model):
+class Hunt(models.Model):
 	name = models.CharField(max_length=1000)
-	questions_count = models.IntegerField(default=0)
+	stops_count = models.IntegerField(default=0)
 	description = models.CharField(max_length=70)
 	created = models.DateTimeField(auto_now_add=True,null=True,blank=True)
 	slug = models.SlugField()
 	roll_out = models.BooleanField(default=False)
+	def __str__(self):
+		return self.name
 
 class Meta:
 	ordering = ['created',]
-	verbose_name_plural ="Quizzes"
+	verbose_name_plural ="Hunts"
 
 	def __str__(self):
 		return self.name
 
-class Question(models.Model):
-	quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+class Stop(models.Model):
+	hunt = models.ForeignKey(Hunt, on_delete=models.CASCADE)
 	label = models.CharField(max_length=1000)
 	order = models.IntegerField(default=0)
 
 	def __str__(self):
 		return self.label
 class Answer(models.Model):
-	question = models.ForeignKey(Question, on_delete=models.CASCADE)
+	stop = models.ForeignKey(Stop, on_delete=models.CASCADE)
 	text = models.CharField(max_length=1000)
 	is_correct = models.BooleanField(default=False)
 	def __str__(self):
 		return self.text
 
-class QuizTakers(models.Model):
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
+class Usrs(models.Model):
+	usr = models.ForeignKey(User, on_delete=models.CASCADE)
+	hunt = models.ForeignKey(Hunt, on_delete=models.CASCADE)
 	correct_answers = models.IntegerField(default=0)
 	completed = models.BooleanField(default=False)
 	timestamp = models.DateTimeField(auto_now_add=True)
@@ -61,22 +63,22 @@ class QuizTakers(models.Model):
 		return self.user.username
 
 class Response(models.Model):
-	quiztaker = models.ForeignKey(QuizTakers, on_delete=models.CASCADE)
-	question = models.ForeignKey(Question, on_delete=models.CASCADE)
+	usr = models.ForeignKey(Usrs, on_delete=models.CASCADE)
+	stop = models.ForeignKey(Stop, on_delete=models.CASCADE)
 	answer = models.ForeignKey(Answer,on_delete=models.CASCADE,null=True,blank=True)
 
 	def __str__(self):
-		return self.question.label
-	@receiver(post_save, sender=Quiz)
-	def set_default_quiz(sender, instance, created,**kwargs):
-		quiz = Quiz.objects.filter(id = instance.id)
-		quiz.update(questions_count=instance.question_set.filter(quiz=instance.pk).count())
+		return self.stop.label
+	@receiver(post_save, sender=Hunt)
+	def set_default_hunt(sender, instance, created,**kwargs):
+		hunt = Hunt.objects.filter(id = instance.id)
+		hunt.update(stops_count=instance.stop_set.filter(hunt=instance.pk).count())
 
-	@receiver(post_save, sender=Question)
+	@receiver(post_save, sender=Stop)
 	def set_default(sender, instance, created,**kwargs):
-		quiz = Quiz.objects.filter(id = instance.quiz.id)
-		quiz.update(questions_count=instance.quiz.question_set.filter(quiz=instance.quiz.pk).count())
+		hunt = Hunt.objects.filter(id = instance.hunt.id)
+		hunt.update(stops_count=instance.hunt.stop_set.filter(hunt=instance.hunt.pk).count())
 
-	@receiver(pre_save, sender=Quiz)
+	@receiver(pre_save, sender=Hunt)
 	def slugify_title(sender, instance, *args, **kwargs):
 		instance.slug = slugify(instance.name)
