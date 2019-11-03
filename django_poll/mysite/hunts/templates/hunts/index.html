@@ -1,0 +1,9 @@
+{% if latest_hunt_list %}
+    <ul>
+    {% for hunt in latest_hunt_list %}
+        <li><a href="{% url 'hunts:detail' hunt.id %}">{{ hunt.name }}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No hunts are available.</p>
+{% endif %}
