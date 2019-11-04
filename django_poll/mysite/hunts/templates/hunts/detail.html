@@ -6,9 +6,11 @@
 {% for stop in hunt.stop_set.all %}
 	<p>{{ stop.label }}</p>
 	{% for answer in stop.answer_set.all %}
-	    <input type="radio" name="stop{{ stop.label }}" id="answer{{ forloop.counter }}" value="{{ answer.id }}">
+	    <input type="radio" name="answer" id="answer{{ forloop.counter }}" value="{{ answer.id }}">
 	    <label for="answer{{ forloop.counter }}">{{ answer.text }}</label><br>
+
 	{% endfor %}
+	
 {% endfor %}
 <input type="submit" value="Sub">
 </form> 
