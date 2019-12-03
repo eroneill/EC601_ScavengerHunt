@@ -130,8 +130,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'root')
 STATICFILES_DIR = [
     os.path.join(BASE_DIR, 'static'),
     os.path.join(BASE_DIR, 'boot'),
+<<<<<<< HEAD
 ]
 
 # This should redirect the user to the "homepage" at login
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
+=======
+]
+>>>>>>> YH
