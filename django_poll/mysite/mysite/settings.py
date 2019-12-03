@@ -40,8 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
-    'accounts.apps.AccountsConfig',
-
     'nested_admin',
 ]
 
@@ -60,7 +58,7 @@ ROOT_URLCONF = 'mysite.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -130,12 +128,4 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'root')
 STATICFILES_DIR = [
     os.path.join(BASE_DIR, 'static'),
     os.path.join(BASE_DIR, 'boot'),
-<<<<<<< HEAD
 ]
-
-# This should redirect the user to the "homepage" at login
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home'
-=======
-]
->>>>>>> YH
