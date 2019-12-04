@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
 
     'nested_admin',
+    'crispy_forms', 
 ]
 
 MIDDLEWARE = [
@@ -56,6 +57,8 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'mysite.urls'
+
+CRISPY_TEMPLATE_PACK = 'bootstr'
 
 TEMPLATES = [
     {
