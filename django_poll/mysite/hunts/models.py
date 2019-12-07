@@ -55,13 +55,21 @@ class Answer(models.Model):
 		return self.text
 
 class Usrs(models.Model):
-	usr = models.ForeignKey(User, on_delete=models.CASCADE)
+	#usr = models.ForeignKey(User, on_delete=models.CASCADE)
 	hunt = models.ForeignKey(Hunt, on_delete=models.CASCADE)
+	usr = models.CharField(max_length=250,default="")
 	correct_answers = models.IntegerField(default=0)
+	correct = models.CharField(max_length=500,default="")
 	completed = models.BooleanField(default=False)
 	timestamp = models.DateTimeField(auto_now_add=True)
 	def __str__(self):
-		return self.user.username
+		return self.usr
+
+class Corrects(models.Model):
+	usrs = models.ForeignKey(Usrs, on_delete=models.CASCADE)
+	correct = models.CharField(max_length=500, default="")
+	def __str__(self):
+		return self.correct
 
 class Response(models.Model):
 	usr = models.ForeignKey(Usrs, on_delete=models.CASCADE)
