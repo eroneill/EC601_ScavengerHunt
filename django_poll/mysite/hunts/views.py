@@ -46,13 +46,13 @@ def sub(request,hunt_id):
     except: 
         user = Usrs(usr=u,hunt=hunt)
 
-    ans = Answer.objects.get(pk=request.POST['answer'])
+    ans = Answer.objects.get(pk=request.POST['answer']) #return a type of Answer to ans
     try:
-        cor = Corrects.objects.get(usrs=user,correct=ans)
+        cor = Corrects.objects.get(usr=user.usr,correct=ans.text)
         #uco = Corrects.objects.get(usrs=user)
         x = 0
     except:
-        cor = Corrects(correct=ans,usrs=user)
+        cor = Corrects(correct=ans.text,usr=user.usr)
         x = 1
 
     if ans.is_correct and (x==1):
@@ -61,10 +61,12 @@ def sub(request,hunt_id):
         #cor.correct = ans
         user.save()
         cor.save()
-        return HttpResponse(cor.usrs)
-        #return HttpResponse('Congrats! You did it!')
-    if ans.is_correct and (x==0):
-        return HttpResponse('Unfortunately, you already answered this question. Your points are unchanged')
+        if (user.correct_answers<4): 
+            return HttpResponse("fantastic, you now have earned {a:g} points".format(a=user.correct_answers))
+        else:
+            return HttpResponse('congrats. you are done!')
+    elif ans.is_correct and (x==0):
+        return HttpResponse('unfortunately, you already answered this question. your points are unchanged')
     else:
-        return HttpResponse('Almost there... Keep going!')
+        return HttpResponse('unfortunately, the answer is not correct')
     

@@ -59,14 +59,15 @@ class Usrs(models.Model):
 	hunt = models.ForeignKey(Hunt, on_delete=models.CASCADE)
 	usr = models.CharField(max_length=250,default="")
 	correct_answers = models.IntegerField(default=0)
-	correct = models.CharField(max_length=500,default="")
+	#correct = models.ForeignKey(Answer, on_delete=models.CASCADE)
 	completed = models.BooleanField(default=False)
 	timestamp = models.DateTimeField(auto_now_add=True)
 	def __str__(self):
 		return self.usr
 
 class Corrects(models.Model):
-	usrs = models.ForeignKey(Usrs, on_delete=models.CASCADE)
+	# usrs = models.ForeignKey(Usrs, on_delete=models.CASCADE)
+	usr = models.CharField(max_length=250,default="")
 	correct = models.CharField(max_length=500, default="")
 	def __str__(self):
 		return self.correct
