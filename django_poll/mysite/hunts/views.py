@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render,redirect
 from django.urls import reverse
 from django.views import generic
 
@@ -18,6 +18,17 @@ from django.views import generic
 def index(request):
     return HttpResponse("Hello world")
 
+class Done(generic.TemplateView):
+    template_name = 'hunts/done.html'
+
+class Answered(generic.TemplateView):
+    template_name = 'hunts/answered.html'
+
+class Right(generic.TemplateView):
+    template_name = 'hunts/right.html'
+
+class Wrong(generic.TemplateView):
+    template_name = 'hunts/wrong.html'
 
 class HuntView(generic.ListView):
     template_name = 'hunts/index.html'
@@ -62,11 +73,11 @@ def sub(request,hunt_id):
         user.save()
         cor.save()
         if (user.correct_answers<4): 
-            return HttpResponse("fantastic, you now have earned {a:g} points".format(a=user.correct_answers))
+            return HttpResponseRedirect('/hunts/right/')
         else:
-            return HttpResponse('congrats. you are done!')
+            return HttpResponseRedirect('/hunts/done/')
     elif ans.is_correct and (x==0):
-        return HttpResponse('unfortunately, you already answered this question. your points are unchanged')
+        return HttpResponseRedirect('/hunts/answered/')
     else:
-        return HttpResponse('unfortunately, the answer is not correct')
+        return HttpResponseRedirect('/hunts/wrong/')
     

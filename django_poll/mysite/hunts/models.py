@@ -92,3 +92,8 @@ class Response(models.Model):
 	@receiver(pre_save, sender=Hunt)
 	def slugify_title(sender, instance, *args, **kwargs):
 		instance.slug = slugify(instance.name)
+
+@receiver(post_save, sender=User)
+def create_user_profile(sender, instance, created, **kwargs):
+    if created:
+        instance.groups.add(Group.objects.get(name='regular'))
