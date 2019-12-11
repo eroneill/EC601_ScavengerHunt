@@ -55,22 +55,13 @@ class Answer(models.Model):
 		return self.text
 
 class Usrs(models.Model):
-	#usr = models.ForeignKey(User, on_delete=models.CASCADE)
+	usr = models.ForeignKey(User, on_delete=models.CASCADE)
 	hunt = models.ForeignKey(Hunt, on_delete=models.CASCADE)
-	usr = models.CharField(max_length=250,default="")
 	correct_answers = models.IntegerField(default=0)
-	#correct = models.ForeignKey(Answer, on_delete=models.CASCADE)
 	completed = models.BooleanField(default=False)
 	timestamp = models.DateTimeField(auto_now_add=True)
 	def __str__(self):
-		return self.usr
-
-class Corrects(models.Model):
-	# usrs = models.ForeignKey(Usrs, on_delete=models.CASCADE)
-	usr = models.CharField(max_length=250,default="")
-	correct = models.CharField(max_length=500, default="")
-	def __str__(self):
-		return self.correct
+		return self.user.username
 
 class Response(models.Model):
 	usr = models.ForeignKey(Usrs, on_delete=models.CASCADE)
@@ -92,8 +83,3 @@ class Response(models.Model):
 	@receiver(pre_save, sender=Hunt)
 	def slugify_title(sender, instance, *args, **kwargs):
 		instance.slug = slugify(instance.name)
-
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        instance.groups.add(Group.objects.get(name='regular'))

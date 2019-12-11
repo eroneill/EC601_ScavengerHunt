@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 import nested_admin
-from .models import Hunt, Stop, Answer, Response, Usrs, Corrects
+from .models import Hunt, Stop, Answer, Response, Usrs
 class AnswerInline(nested_admin.NestedTabularInline):
 	model = Answer
 	extra = 2
@@ -20,8 +20,6 @@ class ResponseInline(admin.TabularInline):
 class UsrsAdmin(admin.ModelAdmin):
 	inlines = [ResponseInline,]
 	
-admin.site.register(Corrects)
-
 admin.site.register(Hunt, HuntAdmin)
 admin.site.register(Usrs, UsrsAdmin)
 admin.site.register(Response)
