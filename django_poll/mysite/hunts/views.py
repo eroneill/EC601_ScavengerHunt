@@ -46,7 +46,7 @@ class SignUp(generic.CreateView):
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
 
-@permission_required('hunts.add_response', login_url="/hunts/")
+#@permission_required('hunts.add_response', login_url="/hunts/")
 #@user_is_blog_post_user
 def sub(request,hunt_id):
     hunt = get_object_or_404(Hunt, pk=hunt_id)
@@ -72,7 +72,7 @@ def sub(request,hunt_id):
         #cor.correct = ans
         user.save()
         cor.save()
-        if (user.correct_answers<4): 
+        if (user.correct_answers<5): 
             return HttpResponseRedirect('/hunts/right/')
         else:
             return HttpResponseRedirect('/hunts/done/')
