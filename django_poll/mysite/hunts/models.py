@@ -3,7 +3,7 @@ import datetime
 from django.db import models
 from django.utils import timezone
 # for quiz
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.template.defaultfilters import slugify
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
